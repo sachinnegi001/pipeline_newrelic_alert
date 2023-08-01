@@ -1,15 +1,21 @@
 name: applying
 on:  
-
-  workfow_dispatch:
-    inputs:
-      action:
-        discription: "working on newrelic"
-        require: true
-        default: "apply"
-        options: 
-        - 'apply'
-        - 'destroy'
+  # pull_request:
+  #   branches:
+  #     - main
+  # push:
+  #   branches:
+  #     - main
+workfow_dispatch:
+  input:
+    action:
+      discription: "working on newrelic"
+      require: true
+      default: "apply"
+      options: 
+      - 'apply'
+      - 'destroy'
+      
 
 
 jobs:
@@ -35,9 +41,9 @@ jobs:
           cd alert
           terraform plan
       - name: terraform apply
-          run: |
-            cd alert
-            terraform ${{github.event.inputs.action}} -auto-approve
+        run: |
+          cd alert
+          terraform ${{github.event.inputs.action}} -auto-approve
       # - name: terraform destroy
         
       #     run: |
