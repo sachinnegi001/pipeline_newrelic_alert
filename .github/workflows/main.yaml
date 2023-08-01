@@ -33,12 +33,12 @@ jobs:
           terraform plan
       - name: terraform apply
         if: ${{ env.DESTROY_ACTION == 'false' }}  # Only run apply if destroy is not requested
-        run: |
-          cd alert
-          terraform apply -auto-approve
+          run: |
+            cd alert
+            terraform apply -auto-approve
       - name: terraform destroy
         if: ${{ env.DESTROY_ACTION == 'true' }}   # Only run destroy if requested
-        run: |
-          cd alert
-          terraform destroy -auto-approve
+          run: |
+            cd alert
+            terraform destroy -auto-approve
 
