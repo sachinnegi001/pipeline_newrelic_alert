@@ -1,0 +1,42 @@
+name: applying
+
+on:  
+  workflow_dispatch:
+    inputs:
+      action:
+        description: 'Apply or Destroy'
+        required: true
+        default: 'apply'
+        options:
+          - 'apply'
+          - 'destroy'
+
+jobs:
+  job1:
+    runs-on : ubuntu-latest
+
+    steps:
+
+      - name: "Setup - Checkout"
+        uses: actions/checkout@v2.1.0
+
+      - name: "Setup - Terraform CLI"
+        uses: hashicorp/setup-terraform@v1
+
+      - name: terraform init
+        run: |
+          cd dashboard
+          terraform init
+
+      - name: terraform plan
+        run: |
+          cd dashboard
+          terraform plan
+
+      
+      - name: terraform ${{github.event.inputs.value}}
+        # if: github.event.inputs.action == 'apply'
+        run: |
+          cd dashboard
+          terraform ${{github.event.inputs.action}} -auto-approve
+        # terraform apply -auto-approve

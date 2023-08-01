@@ -1,22 +1,11 @@
 name: applying
 on:  
-  # pull_request:
-  #   branches:
-  #     - main
-  # push:
-  #   branches:
-  #     - main
-  workfow_dispatch:
-    inputs:
-      action:
-        discription: "working on newrelic"
-        require: true
-        default: "apply"
-        options: 
-        - 'apply'
-        - 'destroy'
-
-
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
       
 jobs:
   job1:
@@ -28,9 +17,9 @@ jobs:
         uses: hashicorp/setup-terraform@v1
       # - name: Terraform Monitoring
       #   uses: maathor/terraform-new-relic-event-action@master
-        # with:
-        #  NEW_RELIC_API_KEY: ${{ secrets.NEW_RELIC_API_KEY }}
-        #  NEW_RELIC_ACCOUNT_ID: ${{ secrets.NEW_RELIC_ACCOUNT_ID }}
+        with:
+         NEW_RELIC_API_KEY: ${{ secrets.NEW_RELIC_API_KEY }}
+         NEW_RELIC_ACCOUNT_ID: ${{ secrets.NEW_RELIC_ACCOUNT_ID }}
 
       - name: terraform init
         run: |
@@ -43,10 +32,9 @@ jobs:
       - name: terraform apply
         run: |
           cd alert
-          terraform ${{github.event.inputs.action}} -auto-approve
-      # - name: terraform destroy
-        
-      #     run: |
-      #       cd alert
-      #       terraform destroy -auto-approve
+          terraform apply -auto-approve
+      - name: terraform destroy
+        run: |
+          cd alert
+          terraform destroy -auto-approve
 
