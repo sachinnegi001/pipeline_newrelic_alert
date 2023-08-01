@@ -1,11 +1,21 @@
 name: applying
-on:  
-  pull_request:
-    branches:
-      - main
-  push:
-    branches:
-      - main
+on: 
+  workflow_dispatch:
+    inputs:
+      action:
+        description: 'creating newrelic'
+        required: true
+        default: 'apply'
+        options:
+          - 'apply'
+          - 'destroy'
+ 
+  # pull_request:
+  #   branches:
+  #     - main
+  # push:
+  #   branches:
+  #     - main
       
 jobs:
   job1:
@@ -32,9 +42,10 @@ jobs:
       - name: terraform apply
         run: |
           cd alert
-          terraform apply -auto-approve
-      - name: terraform destroy
-        run: |
-          cd alert
-          terraform destroy -auto-approve
+          terraform ${{github.event.inputs.action}} -auto-approve
+        
+      # - name: terraform destroy
+      #   run: |
+      #     cd alert
+      #     terraform destroy -auto-approve
 
