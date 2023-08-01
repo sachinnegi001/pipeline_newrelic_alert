@@ -14,8 +14,8 @@ jobs:
         uses: actions/checkout@v2.1.0
       - name: "Setup - Terraform CLI"
         uses: hashicorp/setup-terraform@v1
-      - name: Terraform Monitoring
-        uses: maathor/terraform-new-relic-event-action@master
+      # - name: Terraform Monitoring
+      #   uses: maathor/terraform-new-relic-event-action@master
         with:
          NEW_RELIC_API_KEY: ${{ secrets.NEW_RELIC_API_KEY }}
          NEW_RELIC_ACCOUNT_ID: ${{ secrets.NEW_RELIC_ACCOUNT_ID }}
