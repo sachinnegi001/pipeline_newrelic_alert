@@ -6,18 +6,18 @@ on:
   # push:
   #   branches:
   #     - main
-workfow_dispatch:
-  input:
-    action:
-      discription: "working on newrelic"
-      require: true
-      default: "apply"
-      options: 
-      - 'apply'
-      - 'destroy'
+  workfow_dispatch:
+    inputs:
+      action:
+        discription: "working on newrelic"
+        require: true
+        default: "apply"
+        options: 
+        - 'apply'
+        - 'destroy'
+
+
       
-
-
 jobs:
   job1:
     runs-on : ubuntu-latest
