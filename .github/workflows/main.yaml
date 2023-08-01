@@ -1,0 +1,36 @@
+[12:54] pooja
+
+name: applying
+on:  
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+jobs:
+  job1:
+    runs-on : ubuntu-latest
+    steps:
+      - name: "Setup - Checkout"
+        uses: actions/checkout@v2.1.0
+      - name: "Setup - Terraform CLI"
+        uses: hashicorp/setup-terraform@v1
+      - name: Terraform Monitoring
+        uses: maathor/terraform-new-relic-event-action@master
+        with:
+         NEW_RELIC_API_KEY: ${{ secrets.NEW_RELIC_API_KEY }}
+         NEW_RELIC_ACCOUNT_ID: ${{ secrets.NEW_RELIC_ACCOUNT_ID }}
+
+      - name: terraform init
+        run: |
+          cd alert
+          terraform init
+      - name: terraform plan
+        run: |
+          cd alert
+          terraform plan
+      - name: terraform apply
+        run: |
+          cd alert
+          terraform apply -auto-approve
