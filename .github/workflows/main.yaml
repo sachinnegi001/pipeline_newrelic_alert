@@ -1,22 +1,15 @@
 name: applying
 on:  
-  pull_request:
-    branches:
-      - main
-  push:
-    branches:
-      - main
-workfow_dispatch:
-  input:
-    action:
-      discription: "working on newrelic"
-      require: true
-      default: "apply"
-      options: 
-        - 'apply'
-        - 'destroy'
-      
 
+  workfow_dispatch:
+    input:
+      action:
+        discription: "working on newrelic"
+        require: true
+        default: "apply"
+        options: 
+          - 'apply'
+          - 'destroy'
 
 jobs:
   job1:
