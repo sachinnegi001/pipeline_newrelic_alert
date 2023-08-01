@@ -6,8 +6,17 @@ on:
   push:
     branches:
       - main
+workfow_dispatch:
+  input:
+    action:
+      discription: "working on newrelic"
+      require: true
+      default: "apply"
+      options: 
+        - 'apply'
+        - 'destroy'
+      
 
-DESTROY_ACTION: ${{ inputs.destroy_action }}
 
 jobs:
   job1:
@@ -32,13 +41,12 @@ jobs:
           cd alert
           terraform plan
       - name: terraform apply
-        if: ${{ env.DESTROY_ACTION == 'false' }}  # Only run apply if destroy is not requested
           run: |
             cd alert
-            terraform apply -auto-approve
-      - name: terraform destroy
-        if: ${{ env.DESTROY_ACTION == 'true' }}   # Only run destroy if requested
-          run: |
-            cd alert
-            terraform destroy -auto-approve
+            terraform ${{github.event.inputs.action}} -auto-approve
+      # - name: terraform destroy
+        
+      #     run: |
+      #       cd alert
+      #       terraform destroy -auto-approve
 
