@@ -2,7 +2,7 @@ name: applying
 on:  
 
   workfow_dispatch:
-    input:
+    inputs:
       action:
         discription: "working on newrelic"
         require: true
