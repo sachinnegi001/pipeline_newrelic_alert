@@ -1,55 +1,46 @@
-      # - name: Terraform Monitoring
-      #   uses: maathor/terraform-new-relic-event-action@master
 name: applying
-
 on:  
 
-  workflow_dispatch:
+  workfow_dispatch:
     inputs:
       action:
-        description: 'Apply or Destroy'
-        required: true
-        default: 'apply'
-        options:
-          - 'apply'
-          - 'destroy'
-
-      value:
-        description: "creating workflow"
-        required: true
-        option:
+        discription: "working on newrelic"
+        require: true
+        default: "apply"
+        options: 
         - 'apply'
         - 'destroy'
 
-jobs:
-  job-make-infra:
-    runs-on : ubuntu-latest
 
+jobs:
+  job1:
+    runs-on : ubuntu-latest
     steps:
       - name: "Setup - Checkout"
         uses: actions/checkout@v2.1.0
-
       - name: "Setup - Terraform CLI"
         uses: hashicorp/setup-terraform@v1
+      # - name: Terraform Monitoring
+      #   uses: maathor/terraform-new-relic-event-action@master
         # with:
-
-        #  api_key: ${{ secrets.NEW_RELIC_API_KEY }}
-
-        #  account_id: ${{ secrets.NEW_RELIC_ACCOUNT_ID }}
-
- 
+        #  NEW_RELIC_API_KEY: ${{ secrets.NEW_RELIC_API_KEY }}
+        #  NEW_RELIC_ACCOUNT_ID: ${{ secrets.NEW_RELIC_ACCOUNT_ID }}
 
       - name: terraform init
         run: |
-          cd dashboard
+          cd alert
           terraform init
       - name: terraform plan
         run: |
-          cd dashboard
+          cd alert
           terraform plan
+      - name: terraform apply
+          run: |
+            cd alert
+            terraform ${{github.event.inputs.action}} -auto-approve
+      # - name: terraform destroy
+        
+      #     run: |
+      #       cd alert
+      #       terraform destroy -auto-approve
 
-      - name: terraform ${{github.event.inputs.value}}
-        # if: github.event.inputs.action == 'apply'
-        run: |
-          cd dashboard
-          terraform ${{github.event.inputs.action}} -auto-approve
