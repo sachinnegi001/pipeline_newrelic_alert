@@ -1,4 +1,4 @@
-name: applying_destroying
+name: applying
 on: 
   workflow_dispatch:
     inputs:
@@ -9,10 +9,10 @@ on:
         options:
           - 'apply'
           - 'destroy'
-  env:
-    BUCKET: sachin-bkt
-    TFSTATE_FILE: terraform.tfstate
-    
+env:
+  BUCKET: sachin-bkt
+  TFSTATE_FILE: terraform.tfstate
+  aws_region: ap-south-1
   # pull_request:
   #   branches:
   #     - main
