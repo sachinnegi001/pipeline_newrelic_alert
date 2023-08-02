@@ -16,7 +16,7 @@ on:
   # push:
   #   branches:
   #     - main
-      
+        
 jobs:
   job1:
     runs-on : ubuntu-latest
@@ -34,12 +34,12 @@ jobs:
       - name: terraform init
         run: |
           cd alert
-          terraform init
+          terraform init -reconfigure -backend-config="bucket=${{ env.BUCKET}}" -backend-config="key=${{ env.TFSTATE_FILE }}" -backend-config="region=${{ env.aws_region }}"
       - name: terraform plan
         run: |
           cd alert
           terraform plan
-      - name: terraform apply
+      - name: ${{github.event.inputs.action}}
         run: |
           cd alert
           terraform ${{github.event.inputs.action}} -auto-approve
