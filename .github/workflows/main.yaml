@@ -39,19 +39,12 @@ jobs:
 
       - name: terraform init
         run: |
-          cd alert
           terraform init -reconfigure -backend-config="bucket=${{ env.BUCKET}}" -backend-config="key=${{ env.TFSTATE_FILE }}" -backend-config="region=${{ env.aws_region }}"
       - name: terraform plan
         run: |
-          cd alert
           terraform plan
       - name: ${{github.event.inputs.action}}
         run: |
-          cd alert
           terraform ${{github.event.inputs.action}} -auto-approve
-        
-      # - name: terraform destroy
-      #   run: |
-      #     cd alert
-      #     terraform destroy -auto-approve
+
 
