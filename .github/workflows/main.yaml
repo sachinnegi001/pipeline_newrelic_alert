@@ -1,4 +1,4 @@
-name: applying
+name: applying_destroying
 on: 
   workflow_dispatch:
     inputs:
@@ -9,7 +9,10 @@ on:
         options:
           - 'apply'
           - 'destroy'
- 
+  env:
+    BUCKET: sachin-bkt
+    TFSTATE_FILE: terraform.tfstate
+    
   # pull_request:
   #   branches:
   #     - main
@@ -25,11 +28,14 @@ jobs:
         uses: actions/checkout@v2.1.0
       - name: "Setup - Terraform CLI"
         uses: hashicorp/setup-terraform@v1
-      # - name: Terraform Monitoring
-      #   uses: maathor/terraform-new-relic-event-action@master
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
         with:
-         NEW_RELIC_API_KEY: ${{ secrets.NEW_RELIC_API_KEY }}
-         NEW_RELIC_ACCOUNT_ID: ${{ secrets.NEW_RELIC_ACCOUNT_ID }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+          aws-region: ${{ env.aws_region }}
+
 
       - name: terraform init
         run: |
